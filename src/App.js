@@ -7,6 +7,7 @@ export default function App() {
   const [fromCurrency, setFromCurrency] = useState("USD");
   const [toCurrency, setToCurrency] = useState("USD");
   const [output, setOutput] = useState(0);
+  const [loader, setLoader] = useState(false);
 
   useEffect(
     function () {
@@ -14,12 +15,16 @@ export default function App() {
         setOutput(amount);
         return;
       }
-
-      fetch(
-        `https://api.frankfurter.app/latest?amount=${amount}&from=${fromCurrency}&to=${toCurrency}`
-      )
-        .then((res) => res.json())
-        .then((data) => setOutput(data.rates[toCurrency]));
+      async function convert() {
+        setLoader(true);
+        await fetch(
+          `https://api.frankfurter.app/latest?amount=${amount}&from=${fromCurrency}&to=${toCurrency}`
+        )
+          .then((res) => res.json())
+          .then((data) => setOutput(data.rates[toCurrency]));
+        setLoader(false);
+      }
+      convert();
     },
     [amount, fromCurrency, toCurrency]
   );
@@ -42,7 +47,7 @@ export default function App() {
         <option value="CAD">CAD</option>
         <option value="INR">INR</option>
       </select>
-      <p>{output}</p>
+      {loader ? <p>LOADING ...</p> : <p>{output}</p>}
     </div>
   );
 }
