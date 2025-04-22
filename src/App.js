@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+// `https://api.frankfurter.app/latest?amount=100&from=EUR&to=USD`
 
-function App() {
+import { useState } from "react";
+
+export default function App() {
+  const [amount, setAmount] = useState(0);
+  const [fromCurrency, setFromCurrency] = useState(0);
+  const [toCurrency, setToCurrency] = useState(0);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <input
+        type="text"
+        value={amount}
+        onChange={(e) => setAmount(e.target.value)}
+      />
+      <select onChange={(e) => setFromCurrency(e.target.value)}>
+        <option value="USD">USD</option>
+        <option value="EUR">EUR</option>
+        <option value="CAD">CAD</option>
+        <option value="INR">INR</option>
+      </select>
+      <select onChange={(e) => setToCurrency(e.target.value)}>
+        <option value="USD">USD</option>
+        <option value="EUR">EUR</option>
+        <option value="CAD">CAD</option>
+        <option value="INR">INR</option>
+      </select>
+      <p>OUTPUT</p>
     </div>
   );
 }
-
-export default App;
